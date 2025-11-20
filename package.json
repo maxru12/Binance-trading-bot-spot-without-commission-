@@ -1,0 +1,20 @@
+{
+  "name": "binance-grid-trading-bot",
+  "version": "1.0.0",
+  "description": "Binance Grid Trading Bot with Trailing Stop for DOGEFDUSD",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js",
+    "dev": "node bot.js"
+  },
+  "dependencies": {
+    "async-retry": "^1.3.3",
+    "axios": "^1.6.0",
+    "decimal.js": "^10.6.0",
+    "dotenv": "^16.3.0",
+    "ws": "^8.14.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
