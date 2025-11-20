@@ -67,7 +67,7 @@ node bot.js
 Параметр,Описание,Значение по умолчанию  
 PROFIT_TARGET_PERCENT,Процент прибыли от средней цены,0.3  
 FIXED_NOTIONAL,Сумма первого ордера (FDUSD),1.3  
-MAX_GRID_POSITIONS,Макс. уровней сетки,20   (макс 50 и можно больше ,(бинанс позволяет до 300)  
+MAX_GRID_POSITIONS,Макс. уровней сетки,20  (макс 50 и можно больше, строка 105 ,(бинанс позволяет до 300)  
 GRID_MODE,'LINEAR' или 'NONLINEAR','NONLINEAR'  
 ORDER_PLACEMENT_MODE,'ALL_AT_ONCE' или 'SEQUENTIAL'  
 GRID_STEP_AUTO_ENABLED,Автошаг по волатильности,true  
