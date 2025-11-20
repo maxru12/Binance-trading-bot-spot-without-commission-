@@ -69,7 +69,7 @@ PROFIT_TARGET_PERCENT,Процент прибыли от средней цены
 FIXED_NOTIONAL,Сумма первого ордера (FDUSD),1.3  
 MAX_GRID_POSITIONS,Макс. уровней сетки,20   (макс 50 и можно больше ,(бинанс позволяет до 300)  
 GRID_MODE,'LINEAR' или 'NONLINEAR','NONLINEAR'  
-ORDER_PLACEMENT_MODE,'ALL_AT_ONCE' или 'SEQUENTIAL','SEQUENTIAL'  
+ORDER_PLACEMENT_MODE,'ALL_AT_ONCE' или 'SEQUENTIAL'  
 GRID_STEP_AUTO_ENABLED,Автошаг по волатильности,true  
 GRID_PULL_DELAY_MINUTES,Задержка подтяжки сетки (мин),2.5  
 
