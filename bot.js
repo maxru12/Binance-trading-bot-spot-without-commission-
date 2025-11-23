@@ -947,19 +947,22 @@ async function resetGridState() {
   await cancelAllActiveOrders();
 
   gridActive = false;
-  avgBuyPrice = 0;
-  totalNotionalSpent = 0;
+  // avgBuyPrice и totalNotionalSpent будут пересчитаны на основе оставшегося totalQty и totalBought, если они есть.
+  // Поэтому их тоже не сбрасываем жестко в 0, а даем возможность пересчитать.
+  avgBuyPrice = totalQty.isZero() ? new Decimal(0) : totalBought.div(totalQty);
+  totalNotionalSpent = totalBought;
   initialBalance = 0;
   sellOrderTargetPrice = 0;
   sequentialOrderIndex = 0;
   sequentialGridPrices = [];
   calculatedGridPositions = 0; // Сброс рассчитанного количества ордеров
 
-  // ✅ Очистка позиции для чистого цикла
-  totalQty = new Decimal(0);
-  totalBought = new Decimal(0);
+  // ❌ НЕПРАВИЛЬНО: Это обнуляет "пыль", которая осталась после округления продажи.
+  // ✅ ИСПРАВЛЕНИЕ: Убираем полное обнуление. `calculateSimplePnL` уже обновил эти значения.
+  // totalQty = new Decimal(0);
+  // totalBought = new Decimal(0);
 
-  currentDOGEQty = 0;
+  currentDOGEQty = totalQty.toNumber(); // Синхронизируем с оставшимся количеством
   executedBuyOrders = 0;
   activeSellOrderInfo = { orderId: null, origQty: 0, side: 'SELL' };
 
@@ -1186,7 +1189,7 @@ async function updateDashboard() {
   console.log(`\x1b[36mАктивных Ордеров:\x1b[0m ${currentCycleOrders}, Рассчитано: ${calculatedGridPositions}`);
   console.log(`\x1b[36mИсполнено:\x1b[0m ${executedBuyOrders}`);
   console.log(`\x1b[36mСтатус:\x1b[0m ${gridActive ? 'Активен' : 'Ожидание'}`);
-  console.log(`\x1b[36mНастройки:\x1b[0m Профит ${PROFIT_TARGET_PERCENT.toFixed(1)}%, БазОрдер ${FIXED_NOTIONAL}, МаксОрдер ${MAX_GRID_POSITIONS}, МнжБаз ${GRID_ORDER_INCREASE_PERCENT.toFixed(1)}%, МнжСет ${NONLINEAR_MULTIPLIER}, Подтяж ${GRID_PULL_DELAY_MINUTES}м, Отст ${GRID_BASE_OFFSET_TICKS}т`);
+  console.log(`\x1b[36mНастройки:\x1b[0m Профит ${PROFIT_TARGET_PERCENT.toFixed(1)}%, БазОрдер ${FIXED_NOTIONAL}, МаксОрдер ${MAX_GRID_POSITIONS}, МнжБаз ${(GRID_ORDER_INCREASE_PERCENT * 100).toFixed(1)}%, МнжСет ${NONLINEAR_MULTIPLIER}, Подтяж ${GRID_PULL_DELAY_MINUTES}м, Отст ${GRID_BASE_OFFSET_TICKS}т`);
   console.log('');
   console.log(`\x1b[32mНереализованная прибыль:\x1b[0m ${unrealizedPnL.toFixed(6)} FDUSD`);
   console.log(`\x1b[33mРеализованная прибыль:\x1b[0m ${totalPnL.toFixed(6)} FDUSD`);
